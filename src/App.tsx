@@ -1,16 +1,11 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import * as React from 'react';
+import { createContext, useReducer } from 'react';
 import './App.css';
-import SearchBar, { LoginEntered } from './forms/searchBar';
-import UserForm from './forms/userForm';
+import Home from './pages/home';
 
 function App() {
-  const [login, setLogin] = React.useState("");
-
-  const searchLogin = (request: LoginEntered) => {
-    console.log(request.login)
-    setLogin(request.login)
-  };
 
   const client = new ApolloClient({
     uri: 'https://api.github.com/graphql',
@@ -19,12 +14,13 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-        <header className="App-header">
-          <SearchBar loginEntered={searchLogin} />
-          <UserForm login={login} repositories={[]} />
-        </header>
-      </div>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} >
+            </Route>
+          </Routes>
+        </Router>
+
     </ApolloProvider>
   );
 }
