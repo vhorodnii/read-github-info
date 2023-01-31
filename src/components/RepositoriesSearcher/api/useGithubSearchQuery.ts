@@ -41,7 +41,7 @@ interface Props {
 
 export const useGithubSearchQuery = ({ query }: Props): useGithubSearchQueryResult => {
 
-  const { loading, error, data } = useQuery(SEARCH_REPOSITORIES, {
+  const { loading, data } = useQuery(SEARCH_REPOSITORIES, {
     variables: { query: query }
   });
 
