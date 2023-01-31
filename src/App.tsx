@@ -11,7 +11,7 @@ function App() {
     link: new HttpLink({
       uri: 'https://api.github.com/graphql',
       headers: {
-        authorization: `Bearer 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`,
+        authorization: `Bearer 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`,
       },
     }),
   });
