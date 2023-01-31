@@ -5,20 +5,22 @@ import SearchBar, { LoginEntered } from "../../../ui/SearchBar";
 import { useGithubSearchQuery } from "../api/useGithubSearchQuery";
 
 export const Searcher = () => {
+  
   const [login, setLogin] = useState("");
-  const repos = useGithubSearchQuery({ searchTerm: login });
+  const { loading, data } = useGithubSearchQuery({ query: login });
 
   const seach = (event: LoginEntered) => {
-    if(event.login){
+    if (event.login) {
       setLogin(event.login);
-      
     }
   };
 
   return (
     <div>
       <SearchBar loginEntered={seach} />
-      <RepositoriesList repos={repos.search.edges} />
+      {loading
+        ? <>loading....</>
+        : <RepositoriesList repos={data.search.edges} />}
     </div>
   );
 }
