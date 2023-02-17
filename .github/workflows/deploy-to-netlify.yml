@@ -14,9 +14,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
     - name: Install dependencies
-      run: npm install
+      run: npm ci
     - name: Run the tests
       run: npm test
     - name: Build
@@ -25,8 +24,11 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Deploy to Netlify'
     steps:
-      - uses: jsmrcaga/action-netlify-deploy@v1.1.0
+      - uses: nwtgck/actions-netlify@v1.2
         with:
+          publish-dir: './build'
+          production-deploy: true
+        env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
           NETLIFY_SITE_ID: 'stately-mousse-886351'
           NETLIFY_DEPLOY_TO_PROD: true
