@@ -1,0 +1,32 @@
+name: 'Build application and deploy to Netlify'
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: 'Build application'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - name: Install dependencies
+      run: npm install
+    - name: Run the tests
+      run: npm test
+    - name: Build
+      run: npm run build
+  deploy:
+    runs-on: ubuntu-latest
+    name: 'Deploy to Netlify'
+    steps:
+      - uses: jsmrcaga/action-netlify-deploy@v1.1.0
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+          NETLIFY_SITE_ID: 'stately-mousse-886351'
+          NETLIFY_DEPLOY_TO_PROD: true
