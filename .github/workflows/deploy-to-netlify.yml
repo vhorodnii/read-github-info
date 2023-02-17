@@ -11,6 +11,8 @@ jobs:
     name: 'Build application'
     steps:
     - uses: actions/checkout@v3
+    - id: commit
+      uses: pr-mpt/actions-commit-hash@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
@@ -27,9 +29,9 @@ jobs:
       with:
         publish-dir: './build'
         production-branch: main
-        production-deploy: true
+        enable-commit-comment: true
+        fails-without-credentials: true
+        deploy-message: 'Published ${{ steps.commit.outputs.short }}'
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
         NETLIFY_SITE_ID: '7bec95f8-348a-47e8-820c-f1635a4a7c77'
-        NETLIFY_DEPLOY_TO_PROD: true
-
