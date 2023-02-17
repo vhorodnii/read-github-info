@@ -2,7 +2,7 @@ name: 'Build application and deploy to Netlify'
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -30,4 +30,3 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
           NETLIFY_SITE_ID: 'stately-mousse-886351'
           NETLIFY_DEPLOY_TO_PROD: true
-          
