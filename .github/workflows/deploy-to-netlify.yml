@@ -1,8 +1,8 @@
 name: 'Build application and deploy to Netlify'
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [ master ]
 
 jobs:
   build:
