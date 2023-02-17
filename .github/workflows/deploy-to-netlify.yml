@@ -31,6 +31,7 @@ jobs:
         production-branch: main
         enable-commit-comment: true
         fails-without-credentials: true
+        github-token: ${{ secrets.REACT_APP_GITHUB_TOKEN }}
         deploy-message: 'Published ${{ github.ref }}@${{ steps.commit.outputs.short }}'
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
