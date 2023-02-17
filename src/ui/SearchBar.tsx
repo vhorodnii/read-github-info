@@ -1,11 +1,11 @@
 import * as React from "react";
 
 interface SearchBarProps {
-  loginEntered: (login: LoginEntered) => void;
+  valueEntered: (value: NewValue) => void;
 }
 
-export interface LoginEntered{
-  login: string;
+export interface NewValue {
+  value: string;
 }
 
 export default function SearchBar(props: SearchBarProps) {
@@ -23,14 +23,16 @@ export default function SearchBar(props: SearchBarProps) {
   };
 
   const startSearching = (name: string) => {
-    props.loginEntered({
-      login: name
+    props.valueEntered({
+      value: name
     })
   }
 
-  return (<div>
-    <label>Enter GitHub login:</label>
-    <input name="login" placeholder="login" onKeyPress={onInputPressed} onChange={(e) => setValue(e.target.value)} />
-    <button onClick={buttonHandler} >Search</button>
-  </div>)
+  return (
+    <div>
+      <label>Enter GitHub login:</label>
+      <input name="login" placeholder="login" onKeyDown={onInputPressed} onChange={(e) => setValue(e.target.value)} />
+      <button onClick={buttonHandler} >Search</button>
+    </div>
+  )
 }

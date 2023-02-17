@@ -31,7 +31,7 @@ interface SearchResult {
 }
 
 interface useGithubSearchQueryResult {
-  data: SearchResult | null;
+  data: { name: string, stars: number }[];
   loading: boolean;
 }
 
@@ -41,11 +41,14 @@ interface Props {
 
 export const useGithubSearchQuery = ({ query }: Props): useGithubSearchQueryResult => {
 
-  const { loading, data } = useQuery(SEARCH_REPOSITORIES, {
+  const { loading, data } = useQuery<SearchResult>(SEARCH_REPOSITORIES, {
     variables: { query: query }
   });
-
-  return { data, loading };
+  let res : { name: string, stars: number }[] = [];
+  if (!loading) {
+    res = data.search.edges.map(e => ({ name: e.node.name, stars: e.node.stargazers.totalCount }))
+  }
+  return { data: res, loading };
 }
 
 

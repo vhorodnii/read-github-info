@@ -2,9 +2,7 @@ import * as React from "react";
 import { Repository, RepositoryItem } from "./RepositoryItem";
 
 interface Repositories {
-  repos: Array<{
-    node: Repository;
-  }>;
+  repos: Array<Repository>;
 }
 
 export const RepositoriesList = (data: Repositories) => {
@@ -13,7 +11,7 @@ export const RepositoriesList = (data: Repositories) => {
     <ul>
       {
         data.repos.map(repo => (
-          <RepositoryItem repository={repo.node} />
+          <RepositoryItem repository={repo} />
         ))
       }
     </ul>

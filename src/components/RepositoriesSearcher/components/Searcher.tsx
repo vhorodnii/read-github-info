@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { RepositoriesList } from "../../../ui/RepositoriesList";
-import SearchBar, { LoginEntered } from "../../../ui/SearchBar";
+import SearchBar, { NewValue } from "../../../ui/SearchBar";
 import { useGithubSearchQuery } from "../api/useGithubSearchQuery";
 
 export const Searcher = () => {
@@ -9,18 +9,18 @@ export const Searcher = () => {
   const [login, setLogin] = useState("");
   const { loading, data } = useGithubSearchQuery({ query: login });
 
-  const seach = (event: LoginEntered) => {
-    if (event.login) {
-      setLogin(event.login);
+  const seach = (event: NewValue) => {
+    if (event.value) {
+      setLogin(event.value);
     }
   };
 
   return (
     <div>
-      <SearchBar loginEntered={seach} />
+      <SearchBar valueEntered={seach} />
       {loading
         ? <>loading....</>
-        : <RepositoriesList repos={data.search.edges} />}
+        : <RepositoriesList repos={data} />}
     </div>
   );
 }
