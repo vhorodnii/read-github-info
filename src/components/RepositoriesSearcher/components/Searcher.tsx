@@ -9,7 +9,7 @@ export const Searcher = () => {
   const [login, setLogin] = useState("");
   const { loading, data } = useGithubSearchQuery({ query: login });
 
-  const seach = (event: NewValue) => {
+  const loginEntered = (event: NewValue) => {
     if (event.value) {
       setLogin(event.value);
     }
@@ -17,7 +17,7 @@ export const Searcher = () => {
 
   return (
     <div>
-      <SearchBar valueEntered={seach} />
+      <SearchBar valueEntered={loginEntered} />
       {loading
         ? <>loading....</>
         : <RepositoriesList repos={data} />}

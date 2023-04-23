@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 
 interface SearchBarProps {
   valueEntered: (value: NewValue) => void;
@@ -10,19 +11,19 @@ export interface NewValue {
 
 export default function SearchBar(props: SearchBarProps) {
 
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = useState("");
 
   const buttonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    startSearching(value)
+    triggerEvent(value)
   };
 
   const onInputPressed = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.code === "Enter") {
-      startSearching(value)
+      triggerEvent(value)
     }
   };
 
-  const startSearching = (name: string) => {
+  const triggerEvent = (name: string) => {
     props.valueEntered({
       value: name
     })
