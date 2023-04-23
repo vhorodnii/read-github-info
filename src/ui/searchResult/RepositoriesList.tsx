@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Repository, RepositoryItem } from "./RepositoryItem";
-import { Grid, List } from "@mui/material";
+import { Grid } from "@mui/material";
 
 interface Repositories {
   repos: Array<Repository>;
