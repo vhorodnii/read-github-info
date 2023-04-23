@@ -3,9 +3,10 @@ import { Searcher } from "../components/RepositoriesSearcher";
 
 export default function Home() {
 
-  return <div className="App">
-    <header className="App-header">
+  return (
+    <div>
+      <header />
       <Searcher />
-    </header>
-  </div>
+    </div>
+  )
 }

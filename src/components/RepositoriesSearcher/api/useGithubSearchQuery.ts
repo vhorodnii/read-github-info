@@ -30,7 +30,7 @@ interface SearchResult {
   };
 }
 
-interface useGithubSearchQueryResult {
+interface githubSearchQueryResult {
   data: { name: string, stars: number }[];
   loading: boolean;
 }
@@ -39,7 +39,7 @@ interface Props {
   query: string;
 }
 
-export const useGithubSearchQuery = ({ query }: Props): useGithubSearchQueryResult => {
+export const useGithubSearchQuery = ({ query }: Props): githubSearchQueryResult => {
 
   const { loading, data } = useQuery<SearchResult>(SEARCH_REPOSITORIES, {
     variables: { query: query }
