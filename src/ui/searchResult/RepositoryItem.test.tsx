@@ -4,7 +4,7 @@ import { RepositoryItem } from "./RepositoryItem"
 
 describe('Repository item', () => {
   it('correctly shows data', () => {
-    render(<RepositoryItem repository={{name: 'Repo name', stars: 12}} />);
+    render(<RepositoryItem repository={{ name: 'Repo name', stars: 12, url: 'url-here', author: { login: 'vh', url: 'vlad' }, description: 'descr', mainLanguage: 'C#' }} />);
     var component = screen.getByText(/repo name - 12 stars/i);
     expect(component).toBeInTheDocument();
   })

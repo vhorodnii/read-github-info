@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Repository, RepositoryItem } from "./RepositoryItem";
+import { Grid, List } from "@mui/material";
 
 interface Repositories {
   repos: Array<Repository>;
@@ -8,12 +9,15 @@ interface Repositories {
 export const RepositoriesList = (data: Repositories) => {
 
   return (
-    <ul>
+    <Grid
+      container>
       {
         data.repos.map(repo => (
-          <RepositoryItem repository={repo} />
+          <Grid item xs={12} md={6} xl={4}>
+            <RepositoryItem repository={repo} key={repo.url} />
+          </Grid>
         ))
       }
-    </ul>
+    </Grid>
   );
 };

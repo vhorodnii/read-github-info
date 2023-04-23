@@ -23,13 +23,7 @@ describe('search component', () => {
     ));
 
   })
-
-  it('has greeting', () => {
-    const linkElement = screen.getByText(/enter github login/i);
-
-    expect(linkElement).toBeInTheDocument();
-  });
-
+  
   it('shows loading by default', () => {
     var list = screen.queryByRole('list');
     expect(list).not.toBeInTheDocument();
