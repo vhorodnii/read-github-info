@@ -3,6 +3,8 @@ import App from './App';
 
 test('renders learn react link', () => {
   render(<App />);
-  const linkElement = screen.getByText(/enter github login/i);
-  expect(linkElement).toBeInTheDocument();
+  
+  const input = screen.getByLabelText(/enter github login/i);
+  expect(input).toBeInTheDocument();
+  // expect(linkElement).toBeInTheDocument();
 });

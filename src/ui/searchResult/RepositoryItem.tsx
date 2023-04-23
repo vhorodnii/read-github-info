@@ -4,6 +4,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Icon } from "@mui/material";
+import StarIcon from '@mui/icons-material/Star';
 
 export interface Repository {
   name: string;
@@ -32,7 +34,10 @@ export function RepositoryItem({ repository }: { repository: Repository }): JSX.
           {repository.author.login}
         </Typography>
         <Typography variant="h5" component="div">
-          {repository.name}
+          {repository.name} - {repository.stars}
+          <Icon>
+            <StarIcon sx={{ color: '#FFD700'}} />
+          </Icon>
         </Typography>
         <Typography variant="body2">
           {repository.description}

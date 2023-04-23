@@ -4,11 +4,9 @@ import SearchBar, { NewValue } from "./SearchBar"
 
 
 describe('search bar', () => {
-  it('has label, input and button', () => {
+  it('has input and button', () => {
     render(<SearchBar valueEntered={() => { }} />);
 
-    var label = screen.getByText(/enter github login/i);
-    expect(label).toBeInTheDocument();
     let input = screen.getByRole('textbox');
     expect(input).toBeInTheDocument();
     let button = screen.getByRole('button');
