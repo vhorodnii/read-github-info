@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { RepositoriesList } from "../../../ui/RepositoriesList";
+import { RepositoriesList } from "../../../ui/searchResult/RepositoriesList";
 import SearchBar, { NewValue } from "../../../ui/SearchBar";
 import { useGithubSearchQuery } from "../api/useGithubSearchQuery";
 
