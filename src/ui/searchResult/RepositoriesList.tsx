@@ -23,7 +23,7 @@ export const RepositoriesList = (data: Repositories) => {
       }
       {loading ?
         <Grid item xs={12}>
-          <Box sx={{ width: '100%' }}>
+          <Box height={36.5} width={'100%'}>
             <LinearProgress />
           </Box>
         </Grid>
