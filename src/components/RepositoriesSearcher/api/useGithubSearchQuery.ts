@@ -93,7 +93,7 @@ export const useRepositoriesSearchQuery = ({ query }: Props): repositoriesSearch
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [endCursor, setEndCursor] = useState<string | null>(null);
 
-  const { data, fetchMore } = useQuery<SearchResult>(SEARCH_REPOSITORIES, {
+  const { fetchMore } = useQuery<SearchResult>(SEARCH_REPOSITORIES, {
     variables: { query: query },
     onCompleted: (data) => {
       setLoading(false);
@@ -107,7 +107,7 @@ export const useRepositoriesSearchQuery = ({ query }: Props): repositoriesSearch
   });
 
   const loadMore = () => {
-    if (data.search.pageInfo.hasNextPage) {
+    if (hasNextPage) {
       setLoading(true);
       fetchMore({
         variables: {
