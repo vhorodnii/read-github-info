@@ -28,7 +28,7 @@ describe('search component', () => {
     var list = screen.queryByRole('list');
     expect(list).not.toBeInTheDocument();
 
-    var loading = screen.getByText(/loading/i);
+    var loading = screen.getByRole('progressbar');
     expect(loading).toBeInTheDocument();
   })
 

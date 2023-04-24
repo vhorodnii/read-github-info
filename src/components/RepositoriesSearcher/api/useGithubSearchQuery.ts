@@ -1,8 +1,9 @@
 import { gql, useQuery } from '@apollo/client';
+import { useState } from 'react';
 
 const SEARCH_REPOSITORIES = gql`
-  query searchRepositories($query: String!) {
-    search(query: $query, type: REPOSITORY, first: 10) {
+  query searchRepositories($query: String!, $after: String) {
+    search(query: $query, type: REPOSITORY, first: 9, after: $after) {
       edges {
         node {
           ... on Repository {
@@ -23,6 +24,12 @@ const SEARCH_REPOSITORIES = gql`
             }
           }
         }
+        cursor
+      }
+      repositoryCount
+      pageInfo {
+        endCursor
+        hasNextPage
       }
     }
   }
@@ -31,6 +38,7 @@ const SEARCH_REPOSITORIES = gql`
 interface SearchResult {
   search: {
     edges: Array<{
+      cursor: string;
       node: {
         name: string;
         stargazerCount: number;
@@ -43,6 +51,11 @@ interface SearchResult {
         languages: [{ edges: { node: { name: string; } } }];
       },
     }>;
+    repositoryCount: number;
+    pageInfo: {
+      endCursor: string;
+      hasNextPage: boolean;
+    }
   };
 }
 
@@ -61,6 +74,8 @@ interface repositoryData {
 interface repositoriesSearchQueryResult {
   data: repositoryData[];
   loading: boolean;
+  loadMore: () => void;
+  hasMore: boolean;
 }
 
 interface Props {
@@ -73,25 +88,64 @@ export const useRepositoriesSearchQuery = ({ query }: Props): repositoriesSearch
     query += '/';
   }
 
-  const { loading, data } = useQuery<SearchResult>(SEARCH_REPOSITORIES, {
-    variables: { query: query }
+  const [loading, setLoading] = useState<boolean>(true);
+  const [repos, setRepos] = useState<repositoryData[]>([]);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
+  const [endCursor, setEndCursor] = useState<string | null>(null);
+
+  const { data, fetchMore } = useQuery<SearchResult>(SEARCH_REPOSITORIES, {
+    variables: { query: query },
+    onCompleted: (data) => {
+      setLoading(false);
+      setRepos(convertRepotories(data));
+      setHasNextPage(data.search.pageInfo.hasNextPage);
+      setEndCursor(data.search.pageInfo.endCursor);
+    },
+    onError: () => {
+      setLoading(false);
+    }
   });
 
-  let res: repositoryData[] = [];
-  if (!loading) {
-    res = data.search.edges.map(e => ({
-      name: e.node.name,
-      stars: e.node.stargazerCount,
-      url: e.node.url,
-      author: {
-        login: e.node.owner.login,
-        url: e.node.owner.url
-      },
-      description: e.node.description,
-      mainLanguage: e.node.languages[0]?.edges.node.name ?? ''
-    }))
+  const loadMore = () => {
+    if (data.search.pageInfo.hasNextPage) {
+      setLoading(true);
+      fetchMore({
+        variables: {
+          query,
+          after: endCursor
+        },
+        updateQuery: (prevResult, { fetchMoreResult }) => {
+          if (!fetchMoreResult) return prevResult;
+
+          return {
+            search: {
+              ...prevResult.search,
+              edges: [
+                ...prevResult.search.edges,
+                ...fetchMoreResult.search.edges,
+              ],
+              pageInfo: fetchMoreResult.search.pageInfo,
+            },
+          };
+        },
+      });
+    }
+  };
+
+  const convertRepotories = (data: SearchResult): repositoryData[] => {
+    return data.search.edges
+      .map(e => ({
+        name: e.node.name,
+        stars: e.node.stargazerCount,
+        url: e.node.url,
+        author: {
+          login: e.node.owner.login,
+          url: e.node.owner.url
+        },
+        description: e.node.description,
+        mainLanguage: e.node.languages[0]?.edges.node.name ?? ''
+      }));
   }
-  return { data: res, loading };
-}
 
-
+  return { data: repos, loading, loadMore, hasMore: hasNextPage };
+};

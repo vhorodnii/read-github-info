@@ -8,7 +8,7 @@ import { Grid } from "@mui/material";
 export const Searcher = () => {
   
   const [login, setLogin] = useState("");
-  const { loading, data } = useRepositoriesSearchQuery({ query: login });
+  const { data, loading, hasMore, loadMore } = useRepositoriesSearchQuery({ query: login });
 
   const loginEntered = (event: NewValue) => {
     if (event.value) {
@@ -19,9 +19,7 @@ export const Searcher = () => {
   return (
     <Grid container>
       <SearchBar valueEntered={loginEntered} />
-      {loading
-        ? <>loading....</>
-        : <RepositoriesList repos={data} />}
+      <RepositoriesList repos={data} loading={loading} showLoadingButton={hasMore} loadMorePressed={loadMore} />
     </Grid>
   );
 }

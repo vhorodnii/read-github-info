@@ -1,23 +1,43 @@
 import * as React from "react";
 import { Repository, RepositoryItem } from "./RepositoryItem";
-import { Grid } from "@mui/material";
+import { Box, Button, Grid, LinearProgress } from "@mui/material";
 
 interface Repositories {
   repos: Array<Repository>;
+  loading: boolean;
+  showLoadingButton: boolean;
+  loadMorePressed: () => void;
 }
 
 export const RepositoriesList = (data: Repositories) => {
+  const { repos, showLoadingButton, loading, loadMorePressed } = data;
 
   return (
-    <Grid
-      container>
+    <Grid container>
       {
-        data.repos.map(repo => (
+        repos.map(repo => (
           <Grid item xs={12} md={6} xl={4}>
             <RepositoryItem repository={repo} key={repo.url} />
           </Grid>
         ))
       }
-    </Grid>
+      {loading ?
+        <Grid item xs={12}>
+          <Box sx={{ width: '100%' }}>
+            <LinearProgress />
+          </Box>
+        </Grid>
+        : <></>
+      }
+      {showLoadingButton && !loading ?
+        <Grid item xs={12}>
+          <Box display="flex"
+            justifyContent="center">
+            <Button variant="contained" onClick={loadMorePressed} >Load more</Button>
+          </Box>
+        </Grid>
+        : <></>
+      }
+    </Grid >
   );
 };
