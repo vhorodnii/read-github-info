@@ -97,7 +97,7 @@ export const useRepositoriesSearchQuery = ({ query }: Props): repositoriesSearch
     variables: { query: query },
     onCompleted: (data) => {
       setLoading(false);
-      setRepos(convertRepotories(data));
+      setRepos(convertToRepositories(data));
       setHasNextPage(data.search.pageInfo.hasNextPage);
       setEndCursor(data.search.pageInfo.endCursor);
     },
@@ -132,7 +132,7 @@ export const useRepositoriesSearchQuery = ({ query }: Props): repositoriesSearch
     }
   };
 
-  const convertRepotories = (data: SearchResult): repositoryData[] => {
+  const convertToRepositories = (data: SearchResult): repositoryData[] => {
     return data.search.edges
       .map(e => ({
         name: e.node.name,
