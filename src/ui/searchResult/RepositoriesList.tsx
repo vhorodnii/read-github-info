@@ -16,8 +16,8 @@ export const RepositoriesList = (data: Repositories) => {
     <Grid container>
       {
         repos.map(repo => (
-          <Grid item xs={12} md={6} xl={4}>
-            <RepositoryItem repository={repo} key={repo.url} />
+          <Grid item xs={12} md={6} xl={4} key={repo.url}>
+            <RepositoryItem repository={repo} />
           </Grid>
         ))
       }
