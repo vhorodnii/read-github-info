@@ -11,8 +11,6 @@ jobs:
     name: 'Build application'
     steps:
     - uses: actions/checkout@v3
-    - id: commit
-      uses: pr-mpt/actions-commit-hash@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
@@ -36,6 +34,9 @@ jobs:
     name: 'Deploy to Netflix'
     needs: build
     steps:
+    - uses: actions/checkout@v3
+    - id: commit
+      uses: pr-mpt/actions-commit-hash@v2
     - uses: actions/download-artifact@master
       with:
         name: webapp
