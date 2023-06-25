@@ -24,7 +24,21 @@ jobs:
     - name: Build
       run: npm run build
       env:  
-        REACT_APP_GITHUB_TOKEN: ${{ secrets.REACT_APP_GITHUB_TOKEN }} 
+        REACT_APP_GITHUB_TOKEN: ${{ secrets.REACT_APP_GITHUB_TOKEN }}
+    - uses: actions/upload-artifact@master
+      with:
+        name: webapp
+        path: ./build
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    name: 'Deploy to Netflix'
+    steps:
+    - uses: actions/download-artifact@master
+      with:
+        name: webapp
+        path: build/
     - uses: nwtgck/actions-netlify@v2.0.0
       with:
         publish-dir: './build'
