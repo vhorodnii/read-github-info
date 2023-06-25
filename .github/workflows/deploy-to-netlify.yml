@@ -28,8 +28,7 @@ jobs:
         name: webapp
         path: ./build
 
-
-  deploy:
+  deployNetflix:
     runs-on: ubuntu-latest
     name: 'Deploy to Netflix'
     needs: build
@@ -52,3 +51,21 @@ jobs:
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
         NETLIFY_SITE_ID: '7bec95f8-348a-47e8-820c-f1635a4a7c77'
+
+  deployAWS:
+    runs-on: ubuntu-latest
+    name: 'Deploy to AWS'
+    needs: build
+    steps:  
+    - uses: actions/download-artifact@master
+      with:
+        name: webapp
+        path: build/
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+        aws-region: eu-north-1
+    - name: Deploy
+      run: aws s3 sync ./build s3://read-github-info-site
