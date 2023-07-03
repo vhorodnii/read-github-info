@@ -69,3 +69,21 @@ jobs:
         aws-region: eu-north-1
     - name: Deploy
       run: aws s3 sync ./build s3://read-github-info-site
+      
+  deployAzure:
+    runs-on: ubuntu-latest
+    name: 'Deploy to Azure'
+    needs: build
+    steps:
+    - uses: actions/download-artifact@master
+      with:
+        name: webapp
+        path: build/
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Upload to blob storage
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+            az storage blob upload-batch --account-name githubreaddemo  --auth-mode key -d '$web' -s build/
